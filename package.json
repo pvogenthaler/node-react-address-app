@@ -1,0 +1,31 @@
+{
+  "name": "node-address-api",
+  "version": "1.0.0",
+  "description": "#### Description - Build a UI which will display a number of addresses retrieved from an api endpoint",
+  "main": "server.js",
+  "scripts": {
+    "build:dev": "webpack --config ./webpack.config.js --mode development --watch",
+    "start:dev": "nodemon server.js",
+    "start": "webpack --config ./webpack.config.js --mode development && node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ambyint/full-stack-coding-challenge.git"
+  },
+  "author": "Paige Vogenthaler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ambyint/full-stack-coding-challenge/issues"
+  },
+  "homepage": "https://github.com/ambyint/full-stack-coding-challenge#readme",
+  "dependencies": {
+    "axios": "0.18.0",
+    "babel-loader": "7.1.5",
+    "babel-preset-react": "^6.24.1",
+    "express": "4.16.3",
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
+    "webpack": "4.17.1",
+    "webpack-cli": "^3.1.0"
+  }
+}
