@@ -1,12 +1,14 @@
 {
-  "name": "node-address-api",
+  "name": "node-react-address-app",
   "version": "1.0.0",
   "description": "#### Description - Build a UI which will display a number of addresses retrieved from an api endpoint",
   "main": "server.js",
   "scripts": {
-    "build:dev": "webpack --config ./webpack.config.js --mode development --watch",
-    "start:dev": "nodemon server.js",
-    "start": "webpack --config ./webpack.config.js --mode development && node server.js"
+    "build:dev": "webpack --config ./build/webpack.config.js --mode development --watch",
+    "clean": "rm -rf ./server/data/addresses.json",
+    "start:nodemon": "nodemon server/index.js",
+    "start:dev": "node server/index.js",
+    "start": "webpack --config ./build/webpack.config.js --mode development && node server/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,11 +23,14 @@
   "dependencies": {
     "axios": "0.18.0",
     "babel-loader": "7.1.5",
-    "babel-preset-react": "^6.24.1",
+    "babel-preset-react": "6.24.1",
+    "compression": "^1.7.3",
     "express": "4.16.3",
+    "helmet": "3.13.0",
     "react": "16.4.2",
+    "react-async-script-loader": "0.3.0",
     "react-dom": "16.4.2",
     "webpack": "4.17.1",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "3.1.0"
   }
 }

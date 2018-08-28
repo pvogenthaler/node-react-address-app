@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
+import Map from '../organisms/Map';
 
-class NodeAddressApp extends React.Component {
+class Addresses extends React.Component {
   constructor() {
     super();
 
@@ -16,22 +16,24 @@ class NodeAddressApp extends React.Component {
       .get('/addresses')
       .then((res) => {
         this.setState({
-          addresses: res.data
+          addressData: res.data
         });
       })
       .catch((err) => {
+        debugger;
         console.error('Error getting addresses: ', err);
       });
   }
 
   render() {
+    const { addressData } = this.state;
+
     return (
-      <div>here!!!</div>
+      <div>
+        <Map { ...{ addressData } }/>
+      </div>
     );
   }
 }
 
-ReactDOM.render(
-  <NodeAddressApp />,
-  document.getElementById('react-root')
-);
+export default Addresses;

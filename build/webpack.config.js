@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const config = {
-  entry: `${__dirname}/App.jsx`,
+  entry: path.resolve(__dirname, '../react/App.jsx'),
   module: {
     rules: [
       {
@@ -17,8 +17,11 @@ const config = {
       }
     ]
   },
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
+  },
   output: {
-    path: __dirname,
+    path: path.resolve(__dirname, '../public'),
     publicPath: '/',
     filename: 'bundle.js'
   }
