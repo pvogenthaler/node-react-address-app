@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Addresses from './pages/Addresses';
+import AddressPage from './pages/AddressPage';
 
 const App = () => (
-  <Addresses />
+  <AddressPage />
 );
 
 ReactDOM.render(

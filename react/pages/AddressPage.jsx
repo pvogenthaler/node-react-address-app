@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Map from '../organisms/Map';
+import AddressList from '../organisms/AddressList';
 
 class Addresses extends React.Component {
   constructor() {
@@ -20,7 +22,6 @@ class Addresses extends React.Component {
         });
       })
       .catch((err) => {
-        debugger;
         console.error('Error getting addresses: ', err);
       });
   }
@@ -29,9 +30,18 @@ class Addresses extends React.Component {
     const { addressData } = this.state;
 
     return (
-      <div>
-        <Map { ...{ addressData } }/>
-      </div>
+      <Tabs>
+        <TabList>
+          <Tab>Map</Tab>
+          <Tab>Address List</Tab>
+        </TabList>
+        <TabPanel>
+          <Map { ...{ addressData } }/>
+        </TabPanel>
+        <TabPanel>
+          <AddressList { ...{ addressData } }/>
+        </TabPanel>
+      </Tabs>
     );
   }
 }

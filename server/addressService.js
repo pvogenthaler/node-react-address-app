@@ -5,6 +5,7 @@ const axios = require('axios');
 
 let addressData = []; // address, lat lng, and location type
 let filteredAddressData = []; // filtered by ROOFTOP location type
+const addressLines = {};
 
 function initAddresses() {
   const addressesJSONPath = path.resolve(__dirname, 'data/addresses.json');
@@ -14,7 +15,7 @@ function initAddresses() {
     return;
   }
 
-  const addressCSVPath = path.resolve(__dirname, 'data/addressesTest.csv');
+  const addressCSVPath = path.resolve(__dirname, 'data/addresses.csv');
 
   readline
     .createInterface({
@@ -22,29 +23,24 @@ function initAddresses() {
       output: null,
       terminal: false
     })
-    .on('line', parseAddressLine)
+    .on('line', handleAddressLine)
     .on('close', () => {
       geocodeAndFilterAddresses();
     });
 }
 
-function parseAddressLine(line) {
+function handleAddressLine(line) {
   line = line.replace(/"/g, '');
-  const address = line.split(',');
 
-  if (address.length < 3) {
-    return; // must have address1, street, and state
+  // check for duplicates or non-address
+  if (!!addressLines[line] || line.split(',').length < 3) {
+    return;
   }
 
-  const stateAndZip = address[2].trim().split(' ');
-  const hasZip = stateAndZip.length > 1;
+  addressLines[line] = true;
 
   addressData.push({
-    addressLine: line,
-    address1: address[0],
-    city: address[1],
-    state: stateAndZip[0],
-    zip: hasZip ? stateAndZip[1] : null
+    addressLine: line
   });
 }
 
@@ -57,16 +53,14 @@ function geocodeAndFilterAddresses() {
       return;
     }
 
-    geocodeAddress(index);
-    index++;
+    geocodeAddress(index++);
   }, 200); // to avoid google geocode api query limit
 }
 
 function geocodeAddress(index) {
   axios
     .get(
-      'http://maps.googleapis.com/maps/api/geocode/json?address=' +
-      addressData[index].addressLine
+      'https://maps.googleapis.com/maps/api/geocode/json?key= AIzaSyCh6PRLuIMe4xCozd9eVLB3_KER9Ygr8DE&address=' + addressData[index].addressLine
     )
     .then((res) => {
       const { status } = res.data;
@@ -76,21 +70,19 @@ function geocodeAddress(index) {
         return;
       }
 
-      const { location, location_type } = res.data.results[0].geometry;
-
-      addressData[index].location = location;
-      addressData[index].locationType = location_type;
+      addressData[index].geolocationResults = res.data.results[0];
 
       if (index === addressData.length - 1) { // address geocoding complete
         filteredAddressData = addressData.filter((address) => (
-          address.locationType === 'ROOFTOP'
+          !!address.geolocationResults &&
+          address.geolocationResults.geometry.location_type === 'ROOFTOP'
         ));
 
         writeAddressesJSONFile();
       }
     })
     .catch((err) => {
-      console.log('Error geocoding address: ', err, 'Index: ', index);
+      console.error('Error geocoding address: ', err, 'Index: ', index, 'Address: ', addressData[index]);
     });
 }
 
