@@ -1,4 +1,4 @@
-## Full Stack Coding Challenge
+## node-react-address-app
 
 #### Description
 - Build a UI which will display a number of addresses retrieved from an api endpoint
