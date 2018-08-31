@@ -87,7 +87,9 @@ function geocodeAddress(index) {
 }
 
 function writeAddressesJSONFile() {
-  fs.writeFile('server/data/addresses.json', JSON.stringify(filteredAddressData), 'utf8', () => {});
+  fs.writeFile('server/data/addresses.json', JSON.stringify(filteredAddressData), 'utf8', () => {
+    console.info('Completed geocoding addresses')
+  });
 }
 
 function getAddresses() {
